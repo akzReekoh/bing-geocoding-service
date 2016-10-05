@@ -1,19 +1,19 @@
 {
-	"geocoding_type": {
-		"label": "Geocoding Type",
-		"type": "String",
-		"enum": [
-			"Forward",
-			"Reverse"
-		],
-		"required": false,
-		"default": "Reverse",
-		"help": "(Optional) The type of geocoding to be done. Default 'Reverse'."
-	},
-	"api_key": {
-      "label": "Bing Maps Key",
-      "type": "Password",
-      "required": true,
-      "help": "Your Bing Maps API Key."
-    }
+  "geocoding_type": {
+    "label": "Geocoding Type",
+    "type": "String",
+    "enum": [
+      "Forward",
+      "Reverse"
+    ],
+    "required": false,
+    "default": "Reverse",
+    "help": "(Optional) The type of geocoding to be done. Default 'Reverse'."
+  },
+  "api_key": {
+    "label": "Bing Maps Key",
+    "type": "Password",
+    "required": true,
+    "help": "Your Bing Maps API Key."
+  }
 }

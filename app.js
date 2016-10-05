@@ -1,12 +1,12 @@
 'use strict';
 
 var platform = require('./platform'),
-    isNaN   = require('lodash.isnan'),
-    inRange  = require('lodash.inrange'),
+    isNaN = require('lodash.isnan'),
+    inRange = require('lodash.inrange'),
     isNumber = require('lodash.isnumber'),
     isString = require('lodash.isstring'),
     isPlainObject = require('lodash.isplainobject'),
-	geobing, geocoding_type;
+    geobing, geocoding_type;
 
 var _handleException = function (requestId, error) {
     platform.sendResult(requestId, null);
@@ -14,13 +14,13 @@ var _handleException = function (requestId, error) {
 };
 
 platform.on('data', function (requestId, data) {
-    if(isPlainObject(data)){
-        if(geocoding_type === 'Forward'){
+    if (isPlainObject(data)) {
+        if (geocoding_type === 'Forward') {
             if (!isString(data.address))
                 return _handleException(requestId, new Error(`Invalid address. Address ${data.address}`));
 
             geobing.getCoordinates(data.address, function (err, coordinates) {
-                if(err)
+                if (err)
                     return _handleException(requestId, err);
 
                 let result = {
@@ -39,14 +39,14 @@ platform.on('data', function (requestId, data) {
                 }));
             });
         }
-        else{
+        else {
             if (isNaN(data.lat) || !isNumber(data.lat) || !inRange(data.lat, -90, 90) ||
-                isNaN(data.lng) || !isNumber(data.lng) || !inRange(data.lng, -180, 180)){
+                isNaN(data.lng) || !isNumber(data.lng) || !inRange(data.lng, -180, 180)) {
                 return _handleException(requestId, new Error('Latitude (lat) and Longitude (lng) are not valid. lat: ' + data.lat + ' lng:' + data.lng));
             }
 
-            geobing.getInfoFromCoordinates({ lat : data.lat, lng : data.lng }, function (err, resp) {
-                if(err)
+            geobing.getInfoFromCoordinates({lat: data.lat, lng: data.lng}, function (err, resp) {
+                if (err)
                     return _handleException(requestId, err);
 
                 let result = {
@@ -67,7 +67,7 @@ platform.on('data', function (requestId, data) {
         }
     }
     else
-        _handleException(requestId,  Error(`Invalid data received. Data must be a valid JSON Object. Data: ${data}`));
+        _handleException(requestId, Error(`Invalid data received. Data must be a valid JSON Object. Data: ${data}`));
 
 });
 
@@ -83,6 +83,6 @@ platform.once('ready', function (options) {
 
     geocoding_type = options.geocoding_type || config.geocoding_type.default;
 
-	platform.notifyReady();
-	platform.log('Bing Maps Geocoding Service has been initialized.');
+    platform.notifyReady();
+    platform.log('Bing Maps Geocoding Service has been initialized.');
 });
